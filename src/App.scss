@@ -37,10 +37,13 @@ $font : 'Montserrat', sans-serif;
     font-size: 22px;
     cursor: pointer;
     transition: ease-in-out, width .35s ease-in-out;
+ 
     &selected, &:hover {
-      color: #4f4c4c;
+      color: ghostwhite;
       background-color: #182C61;
-    }
+      .letter {
+        color:ghostwhite;
+      }    }
     &:focus {
       outline: none;
     }
@@ -64,11 +67,12 @@ $font : 'Montserrat', sans-serif;
     width: 30px;
     position: absolute;
     left: 0;
-    top: 0;
+    top: 2.5px;
     text-align: center;
     height: 28px;
     padding: 5px;
     text-transform: uppercase;
+    font-size: 23px;
   }
 
   .btn {
@@ -79,6 +83,24 @@ $font : 'Montserrat', sans-serif;
     font-size: 18px;
     margin-top: 20px;
     cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    &.btn-primary {
+      outline: none;
+      background-color:  #2C3A47;
+      color: ghostwhite;
+      margin-top: 50px;
+      font-weight: 600;
+    
+      &:hover, &selected {
+        background-color:rgb(35, 47, 58);
+        border: #2C3A47;
+      }
+    }
+
+ 
 
   }
 }
