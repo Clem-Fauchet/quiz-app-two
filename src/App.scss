@@ -38,7 +38,7 @@ $font : 'Montserrat', sans-serif;
     cursor: pointer;
     transition: ease-in-out, width .35s ease-in-out;
  
-    &selected, &:hover {
+    &.selected, &:hover {
       color: ghostwhite;
       background-color: #182C61;
       .letter {
@@ -94,7 +94,7 @@ $font : 'Montserrat', sans-serif;
       margin-top: 50px;
       font-weight: 600;
     
-      &:hover, &selected {
+      &:hover, &:focus {
         background-color:rgb(35, 47, 58);
         border: #2C3A47;
       }
