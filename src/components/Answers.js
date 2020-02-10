@@ -1,32 +1,38 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext } from 'react'
 import Answer from './Answer'
 
-function Answers(props) {
+import QuizContext from '../context/QuizContext'
+
+function Answers() {
+  const { state, dispatch } = useContext(QuizContext)
+  const { currentAnswer, currentQuestion, questions } = state
+  const question = questions[currentQuestion]
+
   return (
     <Fragment>
       <Answer
         letter='a'
-        answer={props.question.answer_a}
-        selected={props.currentAnswer === 'a'}
-        dispatch={props.dispatch}
+        answer={question.answer_a}
+        selected={currentAnswer === 'a'}
+        dispatch={dispatch}
       />
       <Answer
         letter='b'
-        answer={props.question.answer_b}
-        selected={props.currentAnswer === 'b'}
-        dispatch={props.dispatch}
+        answer={question.answer_b}
+        selected={currentAnswer === 'b'}
+        dispatch={dispatch}
       />
       <Answer
         letter='c'
-        answer={props.question.answer_c}
-        selected={props.currentAnswer === 'c'}
-        dispatch={props.dispatch}
+        answer={question.answer_c}
+        selected={currentAnswer === 'c'}
+        dispatch={dispatch}
       />
       <Answer
         letter='d'
-        answer={props.question.answer_d}
-        selected={props.currentAnswer === 'd'}
-        dispatch={props.dispatch}
+        answer={question.answer_d}
+        selected={currentAnswer === 'd'}
+        dispatch={dispatch}
       />
     </Fragment>
   )

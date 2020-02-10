@@ -14,18 +14,9 @@ import {
 } from './reducers/type'
 import quizReducer from './reducers/quizReducer'
 
+import QuizContext from './context/QuizContext'
+
 function App() {
-  const initialState = {
-    currentQuestion: 0,
-    currentAnswer: '',
-    answers: [],
-    showResults: false,
-    error: '',
-  }
-
-  const [state, dispatch] = useReducer(quizReducer, initialState)
-  const { currentQuestion, currentAnswer, answers, showResults, error } = state
-
   const questions = [
     {
       id: 1,
@@ -57,6 +48,17 @@ function App() {
       correct_answer: 'c',
     },
   ]
+  const initialState = {
+    questions,
+    currentQuestion: 0,
+    currentAnswer: '',
+    answers: [],
+    showResults: false,
+    error: '',
+  }
+
+  const [state, dispatch] = useReducer(quizReducer, initialState)
+  const { currentQuestion, currentAnswer, answers, showResults, error } = state
 
   const question = questions[currentQuestion]
 
@@ -128,19 +130,17 @@ function App() {
     )
   } else {
     return (
-      <div className='container'>
-        <Progress total={questions.length} current={currentQuestion + 1} />
-        <Question question={question.question} />
-        {renderError()}
-        <Answers
-          question={question}
-          currentAnswer={currentAnswer}
-          dispatch={dispatch}
-        />
-        <button className='btn btn-primary' onClick={next}>
-          Confirm and continue
-        </button>
-      </div>
+      <QuizContext.Provider value={{ state, dispatch }}>
+        <div className='container'>
+          <Progress total={questions.length} current={currentQuestion + 1} />
+          <Question />
+          {renderError()}
+          <Answers />
+          <button className='btn btn-primary' onClick={next}>
+            Confirm and continue
+          </button>
+        </div>
+      </QuizContext.Provider>
     )
   }
 }
