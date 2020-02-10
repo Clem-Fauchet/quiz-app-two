@@ -4,12 +4,14 @@ import Progress from './components/Progress'
 import Question from './components/Question'
 import Answers from './components/Answers'
 
-const SET_CURRENT_ANSWER = 'SET_CURRENT_ANSWER'
-const SET_CURRENT_QUESTION = 'SET_CURRENT_QUESTION'
-const SET_ERROR = 'SET_ERROR'
-const SET_SHOW_RESULTS = 'SET_SHOW_RESULTS'
-const SET_ANSWERS = 'SET_ANSWERS'
-const RESET_QUIZ = 'RESET_QUIZ'
+import {
+  SET_ANSWERS,
+  SET_CURRENT_ANSWER,
+  SET_CURRENT_QUESTION,
+  SET_ERROR,
+  SET_SHOW_RESULTS,
+  RESET_QUIZ,
+} from './reducers/type'
 
 function quizReducer(state, action) {
   switch (action.type) {
@@ -98,11 +100,6 @@ function App() {
 
   const question = questions[currentQuestion]
 
-  const handleClick = (e) => {
-    dispatch({ type: SET_CURRENT_ANSWER, currentAnswer: e.target.value })
-    dispatch({ type: SET_ERROR, error: '' })
-  }
-
   const renderError = () => {
     if (!error) {
       return
@@ -178,7 +175,7 @@ function App() {
         <Answers
           question={question}
           currentAnswer={currentAnswer}
-          handleClick={handleClick}
+          dispatch={dispatch}
         />
         <button className='btn btn-primary' onClick={next}>
           Confirm and continue
