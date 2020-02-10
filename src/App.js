@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useReducer } from 'react'
 import './App.scss'
 import Progress from './components/Progress'
 import Question from './components/Question'
