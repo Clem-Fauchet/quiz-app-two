@@ -4,12 +4,65 @@ import Progress from './components/Progress'
 import Question from './components/Question'
 import Answers from './components/Answers'
 
+const SET_CURRENT_ANSWER = 'SET_CURRENT_ANSWER'
+const SET_CURRENT_QUESTION = 'SET_CURRENT_QUESTION'
+const SET_ERROR = 'SET_ERROR'
+const SET_SHOW_RESULTS = 'SET_SHOW_RESULTS'
+const SET_ANSWERS = 'SET_ANSWERS'
+const RESET_QUIZ = 'RESET_QUIZ'
+
+function quizReducer(state, action) {
+  switch (action.type) {
+    case SET_CURRENT_ANSWER:
+      return {
+        ...state,
+        currentAnswer: action.currentAnswer,
+      }
+    case SET_CURRENT_QUESTION:
+      return {
+        ...state,
+        currentQuestion: action.currentQuestion,
+      }
+    case SET_ERROR:
+      return {
+        ...state,
+        error: action.error,
+      }
+    case SET_SHOW_RESULTS:
+      return {
+        ...state,
+        showResults: action.showResults,
+      }
+    case SET_ANSWERS:
+      return {
+        ...state,
+        answers: action.answers,
+      }
+    case RESET_QUIZ:
+      return {
+        ...state,
+        answers: [],
+        currentQuestion: 0,
+        currentAnswer: '',
+        showResults: false,
+        error: '',
+      }
+    default:
+      return state
+  }
+}
+
 function App() {
-  const [currentQuestion, setCurrentQuestion] = useState(0)
-  const [currentAnswer, setCurrentAnswer] = useState('')
-  const [answers, setAnswers] = useState([])
-  const [showResults, setShowResults] = useState(false)
-  const [error, setError] = useState('')
+  const initialState = {
+    currentQuestion: 0,
+    currentAnswer: '',
+    answers: [],
+    showResults: false,
+    error: '',
+  }
+
+  const [state, dispatch] = useReducer(quizReducer, initialState)
+  const { currentQuestion, currentAnswer, answers, showResults, error } = state
 
   const questions = [
     {
@@ -46,8 +99,8 @@ function App() {
   const question = questions[currentQuestion]
 
   const handleClick = (e) => {
-    setCurrentAnswer(e.target.value)
-    setError('')
+    dispatch({ type: SET_CURRENT_ANSWER, currentAnswer: e.target.value })
+    dispatch({ type: SET_ERROR, error: '' })
   }
 
   const renderError = () => {
@@ -77,29 +130,33 @@ function App() {
   }
 
   const restart = () => {
-    setAnswers([])
-    setCurrentAnswer('')
-    setCurrentQuestion(0)
-    setShowResults(false)
+    dispatch({ type: RESET_QUIZ })
   }
 
   const next = () => {
     const answer = { questionId: question.id, answer: currentAnswer }
 
     if (!currentAnswer) {
-      setError('Please select an option before continuing')
+      dispatch({
+        type: SET_ERROR,
+        error: 'Please select an option before continuing',
+      })
       return
     }
 
     answers.push(answer)
-    setAnswers(answers)
-    setCurrentAnswer('')
+    dispatch({ type: SET_ANSWERS, answers })
+    dispatch({ type: SET_CURRENT_ANSWER, currentAnswer: '' })
 
     if (currentQuestion + 1 < questions.length) {
-      setCurrentQuestion(currentQuestion + 1)
+      dispatch({
+        type: SET_CURRENT_QUESTION,
+        currentQuestion: currentQuestion + 1,
+      })
       return
     }
-    setShowResults(true)
+
+    dispatch({ type: SET_SHOW_RESULTS, showResults: true })
   }
 
   if (showResults) {
